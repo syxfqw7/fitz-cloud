@@ -12,7 +12,9 @@ package cn.bw.fitzcloud.fitzcloudserver.service;
 import cn.bw.fitzcloud.fitzcloudserver.bean.MailBean;
 import cn.bw.fitzcloud.fitzcloudserver.bean.ServiceInfo;
 import cn.bw.fitzcloud.fitzcloudserver.config.MonitoringCenterProperties;
+import cn.bw.fitzcloud.fitzcloudserver.entity.MonitoringCenter;
 import cn.bw.fitzcloud.fitzcloudserver.mail.MailHandler;
+import cn.bw.fitzcloud.fitzcloudserver.repository.MonitoringCenterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,9 @@ public class MonitoringCenterService {
 
     @Autowired
     private MailHandler mailHandler;
+
+    @Autowired
+    private MonitoringCenterRepository monitoringCenterRepository;
 
 
     /**
@@ -63,6 +68,13 @@ public class MonitoringCenterService {
                         mailHandler.sendSimpleMail(mb);
                         log.info("邮件通知成功, {}", serviceInfo.toString());
                     }
+                    if(monitoringCenterProperties.isNotifyTypeDb()){
+                        MonitoringCenter monitoringCenter = new MonitoringCenter();
+                        monitoringCenter.setAppname(serviceInfo.getAppName());
+                        monitoringCenter.setServer_status(ServiceInfo.ServerStatus.ON);
+                        monitoringCenterRepository.save(monitoringCenter);
+                        log.info("DB存储成功, {}", monitoringCenter.toString());
+                    }
                 }
                 break;
             case OFF:
@@ -75,6 +87,14 @@ public class MonitoringCenterService {
                         mb.addRecipient(monitoringCenterProperties.getRecipients());
                         mailHandler.sendSimpleMail(mb);
                         log.info("邮件通知成功, {}", serviceInfo.toString());
+                    }
+                    if(monitoringCenterProperties.isNotifyTypeDb()){
+                        MonitoringCenter monitoringCenter = new MonitoringCenter();
+                        monitoringCenter.setAppname(serviceInfo.getAppName());
+                        monitoringCenter.setServer_id(serviceInfo.getServerId());
+                        monitoringCenter.setServer_status(ServiceInfo.ServerStatus.OFF);
+                        monitoringCenterRepository.save(monitoringCenter);
+                        log.info("DB存储成功, {}", monitoringCenter.toString());
                     }
                 }
                 break;

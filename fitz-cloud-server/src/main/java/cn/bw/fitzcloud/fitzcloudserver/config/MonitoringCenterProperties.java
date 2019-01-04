@@ -35,4 +35,5 @@ public class MonitoringCenterProperties {
 
     private String[] recipients;
 
+    private boolean notifyTypeDb = false;
 }

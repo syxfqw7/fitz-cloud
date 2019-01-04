@@ -11,6 +11,9 @@ package cn.bw.fitzcloud.fitzcloudserver.bean;
 
 import lombok.Data;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 /**
  * 〈TODO〉<br> 
  *
@@ -27,7 +30,7 @@ public class ServiceInfo {
 
     private String serverId;
 
-    private ServerStatus serverStatus;
+    private ServerStatus serverStatus = ServerStatus.NULL;
 
     public ServiceInfo(){};
 
