@@ -18,7 +18,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 /**
- * 〈TODO〉<br> 
+ * 〈TODO〉<br>
  *
  * @author jack.xue
  * @create 2019/1/3
@@ -40,11 +40,11 @@ public class MailHandler {
             //邮件发送人
             simpleMailMessage.setFrom(MAIL_SENDER);
             //邮件接收人
-            if(!mailBean.getRecipientList().isEmpty()){
+            if (!mailBean.getRecipientList().isEmpty()) {
                 String[] arr = new String[mailBean.getRecipientList().size()];
                 mailBean.getRecipientList().toArray(arr);
                 simpleMailMessage.setTo(arr);
-            }else{
+            } else {
                 simpleMailMessage.setTo(mailBean.getRecipient());
             }
             //邮件主题

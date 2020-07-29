@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 〈TODO〉<br> 
+ * 〈TODO〉<br>
  *
  * @author jack.xue
  * @create 2019/1/3
@@ -33,21 +33,21 @@ public class MailBean {
     private String subject; //邮件主题
     private String content; //邮件内容
 
-    public MailBean(){
+    public MailBean() {
         this.subject = "监控平台";
     }
 
 
     private List<String> recipientList = Lists.newArrayList();
 
-    public List<String> addRecipient(String recipient){
+    public List<String> addRecipient(String recipient) {
         recipientList.add(recipient);
         return this.getRecipientList();
     }
 
-    public List<String> addRecipient(String[] recipients){
-        if(!Objects.isNull(recipients)){
-            for(String recipient : recipients){
+    public List<String> addRecipient(String[] recipients) {
+        if (!Objects.isNull(recipients)) {
+            for (String recipient : recipients) {
                 recipientList.add(recipient);
             }
         }

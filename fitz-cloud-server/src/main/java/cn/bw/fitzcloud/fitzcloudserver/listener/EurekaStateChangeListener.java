@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 /**
- * 〈TODO〉<br> 
+ * 〈TODO〉<br>
  *
  * @author jack.xue
  * @create 2018/12/29
@@ -41,18 +41,18 @@ public class EurekaStateChangeListener {
         String appName = instanceInfo.getAppName();
         Objects.requireNonNull(appName, "服务名不能为空!");
         log.info(">>>>>>> 服务上线,服务名:{},端口号:{}", appName, instanceInfo.getPort());
-        ServiceInfo serviceInfo = new ServiceInfo(appName,instanceInfo.getPort(),null, ServiceInfo.ServerStatus.ON );
+        ServiceInfo serviceInfo = new ServiceInfo(appName, instanceInfo.getPort(), instanceInfo.getInstanceId(), ServiceInfo.ServerStatus.ON);
         monitoringCenterService.handlerNotify(serviceInfo);
     }
 
     @EventListener
-    public void listenCanceled(EurekaInstanceCanceledEvent eurekaInstanceCanceledEvent){
+    public void listenCanceled(EurekaInstanceCanceledEvent eurekaInstanceCanceledEvent) {
         // 服务断线事件
         String appName = eurekaInstanceCanceledEvent.getAppName();
         String serverId = eurekaInstanceCanceledEvent.getServerId();
         Objects.requireNonNull(appName, "服务名不能为空!");
         log.info(">>>>>>> 服务下线,服务名:{},失效服务:{},已被剔除!", appName, serverId);
-        ServiceInfo serviceInfo = new ServiceInfo(appName, -1 ,serverId, ServiceInfo.ServerStatus.OFF );
+        ServiceInfo serviceInfo = new ServiceInfo(appName, -1, serverId, ServiceInfo.ServerStatus.OFF);
         monitoringCenterService.handlerNotify(serviceInfo);
     }
 

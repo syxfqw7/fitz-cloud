@@ -29,7 +29,8 @@ public class SimpleTest {
         System.out.println(serviceInfo.getServerStatus().name());
         switch (serviceInfo.getServerStatus()) {
             case ON:
-                log.info("服务上线了");break;
+                log.info("服务上线了");
+                break;
             case OFF:
                 log.info("服务下线了");
             default:

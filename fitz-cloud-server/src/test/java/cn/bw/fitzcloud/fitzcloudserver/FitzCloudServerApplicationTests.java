@@ -57,21 +57,21 @@ public class FitzCloudServerApplicationTests {
     }
 
     @Test
-    public void loadProperties(){
-        log.info("pro: "+monitoringCenterProperties.toString());
-        log.info(null!=dataSource ? dataSource.toString(): "datasource is null");
+    public void loadProperties() {
+        log.info("pro: " + monitoringCenterProperties.toString());
+        log.info(null != dataSource ? dataSource.toString() : "datasource is null");
     }
 
     @Test
-    public void operDB(){
-       //List<TCode> list = tcodeRepository.findAll();
-       //list.forEach(System.out::println);
+    public void operDB() {
+        //List<TCode> list = tcodeRepository.findAll();
+        //list.forEach(System.out::println);
         long count = tcodeRepository.count();
         log.info("count: {}", count);
     }
 
     @Test
-    public void operDB2(){
+    public void operDB2() {
         MonitoringCenter monitoringCenter = new MonitoringCenter();
         monitoringCenter.setAppname("TEST2");
         monitoringCenter.setServer_id("xxxx");

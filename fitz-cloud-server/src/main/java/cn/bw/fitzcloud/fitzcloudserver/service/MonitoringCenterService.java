@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 /**
- * 〈TODO〉<br> 
+ * 〈TODO〉<br>
  *
  * @author jack.xue
  * @create 2019/1/3
@@ -44,14 +44,15 @@ public class MonitoringCenterService {
 
     /**
      * 通知信息
+     *
      * @param serviceInfo
-     * */
-    public void handlerNotify(ServiceInfo serviceInfo){
-        if(Objects.isNull(serviceInfo)){
+     */
+    public void handlerNotify(ServiceInfo serviceInfo) {
+        if (Objects.isNull(serviceInfo)) {
             log.warn("serviceInfo is null");
             return;
         }
-        if(Objects.isNull(serviceInfo.getServerStatus())){
+        if (Objects.isNull(serviceInfo.getServerStatus())) {
             log.warn("serviceInfo.getServerStatus() is null");
             return;
         }
@@ -59,18 +60,19 @@ public class MonitoringCenterService {
         switch (serviceInfo.getServerStatus()) {
             case ON:
                 log.debug("服务上线了, {}", serviceInfo.toString());
-                if(monitoringCenterProperties.isOnlineNotify()){
-                    if(monitoringCenterProperties.isNotifyTypeMail()){
+                if (monitoringCenterProperties.isOnlineNotify()) {
+                    if (monitoringCenterProperties.isNotifyTypeMail()) {
                         MailBean mb = new MailBean();
-                        mb.setSubject(monitoringCenterProperties.getMailTitle()+"-["+serviceInfo.getAppName()+"]上线");
-                        mb.setContent(">>>>>>> 服务上线,服务名:"+serviceInfo.getAppName()+",端口号:" + serviceInfo.getPort());
+                        mb.setSubject(monitoringCenterProperties.getMailTitle() + "-[" + serviceInfo.getAppName() + "]上线");
+                        mb.setContent(">>>>>>> 服务上线,服务名:" + serviceInfo.getAppName() + ",端口号:" + serviceInfo.getPort());
                         mb.addRecipient(monitoringCenterProperties.getRecipients());
                         mailHandler.sendSimpleMail(mb);
                         log.info("邮件通知成功, {}", serviceInfo.toString());
                     }
-                    if(monitoringCenterProperties.isNotifyTypeDb()){
+                    if (monitoringCenterProperties.isNotifyTypeDb()) {
                         MonitoringCenter monitoringCenter = new MonitoringCenter();
                         monitoringCenter.setAppname(serviceInfo.getAppName());
+                        monitoringCenter.setServer_id(serviceInfo.getServerId());
                         monitoringCenter.setServer_status(ServiceInfo.ServerStatus.ON);
                         monitoringCenterRepository.save(monitoringCenter);
                         log.info("DB存储成功, {}", monitoringCenter.toString());
@@ -79,16 +81,16 @@ public class MonitoringCenterService {
                 break;
             case OFF:
                 log.debug("服务下线了, {}", serviceInfo.toString());
-                if(monitoringCenterProperties.isOfflineNotify()){
-                    if(monitoringCenterProperties.isNotifyTypeMail()){
+                if (monitoringCenterProperties.isOfflineNotify()) {
+                    if (monitoringCenterProperties.isNotifyTypeMail()) {
                         MailBean mb = new MailBean();
-                        mb.setSubject(monitoringCenterProperties.getMailTitle()+"-["+serviceInfo.getAppName()+"]下线");
-                        mb.setContent(">>>>>>> 服务下线,服务名:"+serviceInfo.getAppName()+",失效服务: "+serviceInfo.getServerId()+",已被剔除!");
+                        mb.setSubject(monitoringCenterProperties.getMailTitle() + "-[" + serviceInfo.getAppName() + "]下线");
+                        mb.setContent(">>>>>>> 服务下线,服务名:" + serviceInfo.getAppName() + ",失效服务: " + serviceInfo.getServerId() + ",已被剔除!");
                         mb.addRecipient(monitoringCenterProperties.getRecipients());
                         mailHandler.sendSimpleMail(mb);
                         log.info("邮件通知成功, {}", serviceInfo.toString());
                     }
-                    if(monitoringCenterProperties.isNotifyTypeDb()){
+                    if (monitoringCenterProperties.isNotifyTypeDb()) {
                         MonitoringCenter monitoringCenter = new MonitoringCenter();
                         monitoringCenter.setAppname(serviceInfo.getAppName());
                         monitoringCenter.setServer_id(serviceInfo.getServerId());

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * 〈TODO〉<br> 
+ * 〈TODO〉<br>
  *
  * @author jack.xue
  * @create 2019/1/4
@@ -24,6 +24,6 @@ public class DbCondition implements Condition {
 
     @Override
     public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
-        return conditionContext.getEnvironment().getProperty("monitoring.center.notify-type-db",Boolean.class, false);
+        return conditionContext.getEnvironment().getProperty("monitoring.center.notify-type-db", Boolean.class, false);
     }
 }

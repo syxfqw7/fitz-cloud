@@ -15,7 +15,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 /**
- * 〈TODO〉<br> 
+ * 〈TODO〉<br>
  *
  * @author jack.xue
  * @create 2019/1/3
@@ -32,16 +32,19 @@ public class ServiceInfo {
 
     private ServerStatus serverStatus = ServerStatus.NULL;
 
-    public ServiceInfo(){};
+    public ServiceInfo() {
+    }
 
-    public ServiceInfo(String appName, int port, String serverId, ServerStatus serverStatus){
+    ;
+
+    public ServiceInfo(String appName, int port, String serverId, ServerStatus serverStatus) {
         this.appName = appName;
         this.port = port;
         this.serverId = serverId;
         this.serverStatus = serverStatus;
     }
 
-    public static enum ServerStatus{
+    public static enum ServerStatus {
         ON, OFF, RENEW, NULL
     }
 }

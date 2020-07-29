@@ -26,11 +26,12 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * 〈TODO〉<br> 
+ * 〈TODO〉<br>
  *
  * @author jack.xue
  * @create 2019/1/4
@@ -38,9 +39,9 @@ import java.util.Properties;
  */
 @Configuration
 @Conditional(DbCondition.class)
-@EnableJpaRepositories(basePackages="cn.bw.fitzcloud.fitzcloudserver"
-        , entityManagerFactoryRef="jpaEntityManagerFactory"
-        , transactionManagerRef="jpaTransactionManager")
+@EnableJpaRepositories(basePackages = "cn.bw.fitzcloud.fitzcloudserver"
+        , entityManagerFactoryRef = "jpaEntityManagerFactory"
+        , transactionManagerRef = "jpaTransactionManager")
 public class DbConfig {
 
     @Autowired
@@ -48,19 +49,19 @@ public class DbConfig {
 
     @Bean
     @Primary
-    @Qualifier(value="primaryDataSource")
-    @ConfigurationProperties(prefix="monitoring.datasource")
+    @Qualifier(value = "primaryDataSource")
+    @ConfigurationProperties(prefix = "monitoring.datasource")
     public DataSource getDateSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name="jdbcTransactionManager")
-    public PlatformTransactionManager getJdbcTransactionManager(@Qualifier(value="primaryDataSource") DataSource dataSource) {
+    @Bean(name = "jdbcTransactionManager")
+    public PlatformTransactionManager getJdbcTransactionManager(@Qualifier(value = "primaryDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean(name = "jpaEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory () {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory =
                 new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(getDateSource());
@@ -68,7 +69,7 @@ public class DbConfig {
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto", "validate"));
-        jpaProperties.put("hibernate.show-sql", env.getProperty("hibernate.show-sql","true"));
+        jpaProperties.put("hibernate.show-sql", env.getProperty("hibernate.show-sql", "true"));
         factory.setJpaProperties(jpaProperties);
         return factory;
     }
